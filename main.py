@@ -6,7 +6,10 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain.chains import RetrievalQA
 from langchain.prompts import PromptTemplate
 from langchain_huggingface import HuggingFaceEmbeddings
-
+from rich.console import Console
+from rich.spinner import Spinner
+from rich.live import Live
+import time
 if __name__ == '__main__':
     # Load and split documents
     loader = TextLoader("./docs/finance_knowledge.txt")
@@ -51,13 +54,16 @@ if __name__ == '__main__':
 
     # Chat loop
     print("Personal Finance Advice Bot (Local). Type 'exit' to quit.")
-
+    console = Console()
     while True:
         query = input("\nYou: ")
         if query.lower() in ["exit", "quit"]:
             break
 
-        result = qa_chain.invoke({"query": query})
-        print("\n Answer:", result["result"])
+        with Live(Spinner("dots", text="Generating response..."), refresh_per_second=10):
+            result = qa_chain.invoke({"query": query})
+        console.print("[green]Done![/green]")
+
+    print("\n Answer:", result["result"])
 
 
