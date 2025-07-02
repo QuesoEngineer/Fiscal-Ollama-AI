@@ -1,8 +1,9 @@
 from langchain_community.llms import Ollama
-from langchain.vectorstores import FAISS
+from langchain_ollama import OllamaLLM
+from langchain_community.vectorstores import FAISS
 from langchain_community.document_loaders import TextLoader
 from langchain.text_splitter import CharacterTextSplitter
-from langchain_community.chains import RetrievalQA
+from langchain.chains import RetrievalQA
 from langchain.prompts import PromptTemplate
 from langchain_huggingface import HuggingFaceEmbeddings
 
@@ -20,7 +21,7 @@ if __name__ == '__main__':
     retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
 
     # Initialize Ollama LLM
-    llm = Ollama(model="phi3")
+    llm = OllamaLLM(model="phi3")
 
     # Custom prompt template to focus on financial advice
     prompt_template = PromptTemplate(
