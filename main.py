@@ -60,10 +60,10 @@ if __name__ == '__main__':
         if query.lower() in ["exit", "quit"]:
             break
 
-        with Live(Spinner("dots", text="Generating response..."), refresh_per_second=10):
+        with console.status("[bold cyan]Generating response..."):
             result = qa_chain.invoke({"query": query})
-        console.print("[green]Done![/green]")
 
-    print("\n Answer:", result["result"])
+        console.print("[green]Done![/green]")
+        console.print(result['result'])
 
 
